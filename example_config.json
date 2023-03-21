@@ -1,0 +1,18 @@
+{
+  "SECRET_KEY": "",
+  "DATABASES": {
+    "default": {
+      "ENGINE": "django.db.backends.sqlite3",
+      "NAME": "db.sqlite3"
+    },
+    "mp23": {
+      "ENGINE": "django.db.backends.postgresql",
+      "NAME": "",
+      "HOST": "",
+      "USER": "",
+      "PASSWORD": ""
+    }
+  },
+  "ALLOWED_HOSTS": [],
+  "DEBUG": true
+}
