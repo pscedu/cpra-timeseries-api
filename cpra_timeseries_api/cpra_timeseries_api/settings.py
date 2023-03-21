@@ -15,7 +15,7 @@ import json
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 settings = json.load(open(
     BASE_DIR / 'example_config.json' if os.environ.get('GITHUB_WORKFLOW') else 'config.json')
