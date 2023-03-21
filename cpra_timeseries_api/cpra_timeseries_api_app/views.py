@@ -31,7 +31,7 @@ class BaseTimeSeriesView(APIView):
     def execute_query(self):
         with connections['pdd'].cursor() as cursor:
             cursor.execute(self.get_timeseries_query(), [self.param_values[param] for param in self.param_fields])
-            rows = [[header[0].lower() for header in cursor.description]]
+            rows = [[header[0] for header in cursor.description]]
             rows += cursor.fetchall()
 
         return rows
@@ -52,25 +52,24 @@ class BaseTimeSeriesView(APIView):
 
 class EcoregionAnnualLandAreaTimeSeriesView(BaseTimeSeriesView):
     # permission_classes = [IsAuthenticated]
-    geographies_field = ''
-    param_fields = ['model_groups', 'scenarios', 'geographies']
-    param_values = {'model_groups': [], 'scenarios': [], 'geographies': []}
+    param_fields = ['scenario_model_groups', 'geographies']
+    param_values = {'scenario_model_groups': [], 'geographies': []}
     table = 'icm.mv_land_veg'
-    select_clause = f'{table}."Year_ICM" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario", {table}."Ecoregion" as geoId, ' \
+    select_clause = f'{table}."Year_ICM" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario" as scenario, {table}."Ecoregion" as geoId, ' \
                     f'SUM({table}."Area_m2") as value'
-    where_clause = f'{table}."ModelGroup" IN (%s) AND {table}."Scenario" IN (%s) AND {table}."Ecoregion" IN (%s) AND {table}."VegetationCode" ' \
+    where_clause = f'CONCAT({table}."Scenario", \'_\', {table}."ModelGroup") IN (%s) AND {table}."Ecoregion" IN (%s) AND {table}."VegetationCode" ' \
                    f'IN (\'LND\', \'BRG\', \'FLT\')'
     group_by_clause = f'{table}."ModelGroup", {table}."Scenario", {table}."Ecoregion", {table}."Year_ICM"'
     order_by_clause = f'{table}."Year_ICM" ASC'
 
 class ClaraDecadalEADDTimeSeriesView(BaseTimeSeriesView):
-    param_fields = ['pumping_id', 'fragility_scenario', 'asset_type', 'model_groups', 'scenarios', 'geographies']
-    param_values = {'pumping_id': '', 'fragility_scenario': '', 'asset_type': '', 'model_groups': [], 'scenarios': [], 'geographies': []}
+    param_fields = ['pumping_id', 'fragility_scenario', 'asset_type', 'scenario_model_groups', 'geographies']
+    param_values = {'pumping_id': '', 'fragility_scenario': '', 'asset_type': '', 'scenario_model_groups': [], 'geographies': []}
     table = 'clara.risk'
-    select_clause = f'{table}."Year_FWOA" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario", {table}."CommunityID" as geoId, ' \
+    select_clause = f'{table}."Year_FWOA" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario" as scenario, {table}."CommunityID" as geoId, ' \
                     f'SUM({table}."EAD_10") as min, SUM({table}."EAD_50" - {table}."EAD_10") as q1, SUM({table}."EAD_50") as median,' \
                     f' SUM({table}."EAD_90" - {table}."EAD_50") as q3, SUM({table}."EAD_90") as max'
     where_clause = f'{table}."PumpingID" = %s AND {table}."FragilityScenario" = %s AND {table}."AssetType" IN (%s) AND ' \
-                   f'{table}."ModelGroup" IN (%s) AND {table}."Scenario" IN (%s) AND {table}."CommunityID" IN (%s)'
+                   f'CONCAT({table}."Scenario", \'_\', {table}."ModelGroup") IN (%s) AND {table}."CommunityID" IN (%s)'
     group_by_clause = f'{table}."ModelGroup", {table}."Scenario", {table}."CommunityID", {table}."Year_FWOA"'
     order_by_clause = f'{table}."Year_FWOA" ASC'
