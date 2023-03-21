@@ -82,15 +82,6 @@ WSGI_APPLICATION = 'cpra_timeseries_api.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = settings['DATABASES']
-DATABASES = {
-    "default": {
-      "ENGINE": "django.db.backends.sqlite3",
-      "NAME": "db.sqlite3"
-    },
-    'pdd': {
-        'ENGINE': 'django.db.backends.postgresql',
-    }
-}
 
 
 # Password validation
