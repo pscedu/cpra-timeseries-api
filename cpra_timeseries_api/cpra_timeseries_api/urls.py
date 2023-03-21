@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from cpra_timeseries_api_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ecoregion/annual/land_area/', views.EcoregionAnnualLandAreaTimeSeriesView.as_view(), name="ecoregion_annual_land_area"),
+    path('clara/decadal/eadd/', views.ClaraDecadalEADDTimeSeriesView.as_view(), name="clara_decadal_eadd")
 ]
