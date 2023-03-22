@@ -55,6 +55,7 @@ class BaseTimeSeriesView(APIView):
 
     def execute_query(self):
         with connections['pdd'].cursor() as cursor:
+            print(self.get_timeseries_query())
             cursor.execute(self.get_timeseries_query(), [self.param_values[param] for param in self.param_fields])
             rows = [[header[0] for header in cursor.description]]
             rows += cursor.fetchall()
@@ -124,3 +125,13 @@ class ClaraDecadalEASDTimeSeriesView(ClaraBaseTimeSeriesView):
     select_clause = f'{table}."Year_FWOA" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario" as scenario, {table}."CommunityID" as geoId, ' \
                     f'SUM({table}."EASD_10") as min, SUM({table}."EASD_50" - {table}."EASD_10") as q1, SUM({table}."EASD_50") as median,' \
                     f' SUM({table}."EASD_90" - {table}."EASD_50") as q3, SUM({table}."EASD_90") as max'
+
+class ClaraAnnualDamageTimeSeriesView(ClaraBaseTimeSeriesView):
+    table = 'clara.damage'
+    param_fields = ['pumping_id', 'fragility_scenario', 'asset_type', 'scenario_model_groups', 'geographies', 'year']
+    param_values = {'pumping_id': '', 'fragility_scenario': '', 'asset_type': '', 'scenario_model_groups': [], 'geographies': [], 'year': ''}
+    param_to_field = {'pumping_id': 'PumpingID', 'fragility_scenario': 'FragilityScenario', 'asset_type': 'AssetType', 'geographies': 'CommunityID', 'year': 'Year_FWOA'}
+    select_clause = f'{table}."Year_FWOA" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario" as scenario, {table}."CommunityID" as geoId, ' \
+                    f'{table}."AEP" as aep, SUM({table}."Damage_10") as min, SUM({table}."Damage_50" - {table}."Damage_10") as q1, SUM({table}."Damage_50") as median, ' \
+                    f'SUM({table}."Damage_90" - {table}."Damage_50") as q3, SUM({table}."Damage_90") as max'
+    group_by_fields = ['AEP', 'ModelGroup', 'Scenario', 'CommunityID', 'Year_FWOA']
