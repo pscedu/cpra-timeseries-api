@@ -20,5 +20,8 @@ from cpra_timeseries_api_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ecoregion/annual/land_area/', views.EcoregionAnnualLandAreaTimeSeriesView.as_view(), name="ecoregion_annual_land_area"),
-    path('clara/decadal/eadd/', views.ClaraDecadalEADDTimeSeriesView.as_view(), name="clara_decadal_eadd")
+    path('ecoregion/annual/vegetation_coverage_area/', views.EcoregionAnnualVegetationCoverageAreaTimeSeriesView.as_view(), name="ecoregion_annual_vegetation_coverage_area"),
+    path('ecoregion/annual/habitat_suitability_unit/', views.EcoregionAnnualHabitatSuitabilityUnitTimeSeriesView.as_view(), name="ecoregion_annual_habitat_suitability_unti"),
+    path('clara/decadal/eadd/', views.ClaraDecadalEADDTimeSeriesView.as_view(), name="clara_decadal_eadd"),
+    path('clara/decadal/easd/', views.ClaraDecadalEASDTimeSeriesView.as_view(), name="clara_decadal_easd")
 ]
