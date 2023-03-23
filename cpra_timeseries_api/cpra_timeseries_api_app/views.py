@@ -2,11 +2,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db import connections
-from django.http import HttpResponse, JsonResponse
+from rest_framework.settings import api_settings
+from .renderers import CSVRenderer
 
 
 class BaseTimeSeriesView(APIView):
     # permission_classes = [IsAuthenticated]
+    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
 
     param_fields = []
     param_values = {}
@@ -35,9 +37,7 @@ class BaseTimeSeriesView(APIView):
     def build_where_clause(self):
         where_clause = self.where_clause
         for field, val in self.param_values.items():
-            print(f'{field}: {val}')
             if not val:
-                print(field)
                 continue
 
             where_field = f'{self.table}."{self.param_to_field[field]}"' if field != "scenario_model_groups" else f'CONCAT({self.table}."Scenario", \'_\', {self.table}."ModelGroup")'
@@ -57,30 +57,29 @@ class BaseTimeSeriesView(APIView):
             order_by_clause += f'{self.table}."{field}"' if not order_by_clause else f', {self.table}."{field}"'
         return f'{order_by_clause} ASC'
 
-
     def execute_query(self):
         with connections['pdd'].cursor() as cursor:
-            print(self.get_timeseries_query())
             cursor.execute(self.get_timeseries_query(), [val for val in self.param_values.values()])
             rows = [[header[0] for header in cursor.description]]
             rows += cursor.fetchall()
 
         return rows
+
     def get(self, request):
         if params := request.GET:
             self.parse_params(params)
 
         # At this point I should have model_groups: passed_model_groups (etc) in dict form
-        print(self.param_values)
         timeseries_data = self.execute_query()
 
-        return JsonResponse(
-            {
+        if request.accepted_renderer.format == 'csv':
+            return Response(timeseries_data, headers={'Content-Disposition': 'attachment; filename="timeseries.csv"'})
+        else:
+            return Response({
                 "message": "Successful.",
                 "success": True,
-                "data": timeseries_data,
-            }
-        )
+                "data": timeseries_data
+            })
 
 
 class EcoregionBaseTimeSeriesView(BaseTimeSeriesView):
