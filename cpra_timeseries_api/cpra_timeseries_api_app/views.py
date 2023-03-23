@@ -8,7 +8,7 @@ from .renderers import CSVRenderer
 
 class BaseTimeSeriesView(APIView):
     # permission_classes = [IsAuthenticated]
-    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
+    renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (CSVRenderer,)
 
     param_fields = []
     param_values = {}
