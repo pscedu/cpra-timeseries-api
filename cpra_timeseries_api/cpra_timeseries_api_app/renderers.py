@@ -1,14 +1,15 @@
 import unicodecsv as csv
-from rest_framework.renderers import *
+from rest_framework.renderers import BaseRenderer
 from six import BytesIO
+
 
 class CSVRenderer(BaseRenderer):
     """
     Renderer which serializes to CSV
     """
 
-    media_type = 'text/csv'
-    format = 'csv'
+    media_type = "text/csv"
+    format = "csv"
 
     def render(self, data, media_type=None, renderer_context={}, writer_opts=None):
         """
