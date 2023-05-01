@@ -66,6 +66,7 @@ class BaseTimeSeriesView(APIView):
         return rows
 
     def get(self, request):
+        self.param_values = {}
         if params := request.GET:
             self.parse_params(params)
 
