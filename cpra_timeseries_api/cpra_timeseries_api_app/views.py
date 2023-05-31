@@ -83,7 +83,7 @@ class BaseTimeSeriesView(APIView):
     def get(self, request):
         param_values = json.loads(request.GET.get('filters', "{}"))
 
-        # At this point I should have model_groups: passed_model_groups (etc) in dict form
+        # At this point I should have model_group_names: passed_model_group_names (etc) in dict form
         timeseries_data = self.execute_query(param_values)
 
         if request.accepted_renderer.format == 'csv':
@@ -97,13 +97,13 @@ class BaseTimeSeriesView(APIView):
 
 
 class EcoregionBaseTimeSeriesView(BaseTimeSeriesView):
-    param_fields = ['scenario', 'group', 'geographies', 'year']
-    param_to_field = {'scenario': 'Scenario', 'group': 'ModelGroup', 'geographies': 'Ecoregion', 'year': 'Year_ICM'}
+    param_fields = ['scenario', 'model_group_name', 'geography', 'time']
+    param_to_field = {'scenario': 'Scenario', 'model_group_name': 'ModelGroup', 'geography': 'Ecoregion', 'time': 'Year_FWOA'}
     table = 'icm.mv_land_veg'
-    select_clause = f'{table}."Year_ICM" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario" as scenario, {table}."Ecoregion" as geoId, ' \
+    select_clause = f'{table}."Year_FWOA" as time, {table}."ModelGroup" as model_group_name, {table}."Scenario" as scenario, {table}."Ecoregion" as geography, ' \
                     f'SUM({table}."Area_m2") as value'
-    group_by_fields = ['ModelGroup', 'Scenario', 'Ecoregion', 'Year_ICM']
-    order_by_fields = ['Year_ICM']
+    group_by_fields = ['ModelGroup', 'Scenario', 'Ecoregion', 'Year_FWOA']
+    order_by_fields = ['Year_FWOA']
 
 
 class EcoregionAnnualLandAreaTimeSeriesView(EcoregionBaseTimeSeriesView):
@@ -118,37 +118,40 @@ class EcoregionAnnualVegetationCoverageAreaTimeSeriesView(EcoregionBaseTimeSerie
 
 class EcoregionAnnualHabitatSuitabilityUnitTimeSeriesView(EcoregionBaseTimeSeriesView):
     table = 'icm.mv_hsi'
-    select_clause = f'{table}."Year_ICM" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario" as scenario, {table}."Ecoregion" as geoId, ' \
+    select_clause = f'{table}."Year_FWOA" as time, {table}."ModelGroup" as model_group_name, {table}."Scenario" as scenario, {table}."Ecoregion" as geography, ' \
                     f'SUM({table}."HabitatSuitability") as value'
 
 
 class ClaraBaseTimeSeriesView(BaseTimeSeriesView):
-    param_fields = ['pumping_id', 'fragility_scenario', 'asset_type', 'scenario', 'group', 'geographies', 'year']
-    param_to_field = {'scenario': 'Scenario', 'group': 'ModelGroup', 'pumping_id': 'PumpingID', 'fragility_scenario': 'FragilityScenario', 'asset_type': 'AssetType', 'geographies': 'CommunityID', 'year': 'Year_FWOA'}
+    param_fields = ['pumping_id', 'fragility_scenario', 'asset_type', 'scenario', 'model_group_name', 'geography', 'time']
+    param_to_field = {'scenario': 'Scenario', 'model_group_name': 'ModelGroup', 'pumping_id': 'PumpingID', 'fragility_scenario': 'FragilityScenario', 'asset_type': 'AssetType', 'geography': 'CommunityID', 'time': 'Year_FWOA'}
     table = 'clara.risk'
-    group_by_fields = ['ModelGroup', 'Scenario', 'CommunityID', 'Year_FWOA']
+    group_by_fields = ['ModelGroup', 'Scenario', 'CommunityID', 'PumpingID', 'FragilityScenario', 'AssetType', 'Year_FWOA']
     order_by_fields = ['Year_FWOA']
 
 
 class ClaraDecadalEADDTimeSeriesView(ClaraBaseTimeSeriesView):
     table = ClaraBaseTimeSeriesView.table
-    select_clause = f'{table}."Year_FWOA" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario" as scenario, {table}."CommunityID" as geoId, ' \
-                    f'SUM({table}."EAD_10") as min, SUM({table}."EAD_50" - {table}."EAD_10") as q1, SUM({table}."EAD_50") as median,' \
-                    f' SUM({table}."EAD_90" - {table}."EAD_50") as q3, SUM({table}."EAD_90") as max'
+    select_clause = f'{table}."Year_FWOA" as time, {table}."ModelGroup" as model_group_name, {table}."Scenario" as scenario, {table}."CommunityID" as geography, ' \
+                    f'SUM({table}."EAD_10") as value_min, SUM({table}."EAD_50" - {table}."EAD_10") as value_q1, SUM({table}."EAD_50") as value_median,' \
+                    f' SUM({table}."EAD_90" - {table}."EAD_50") as value_q3, SUM({table}."EAD_90") as value_max, {table}."PumpingID" as pumping_id, ' \
+                    f'{table}."FragilityScenario" as fragility_scenario, {table}."AssetType" as asset_type'
 
 
 class ClaraDecadalEASDTimeSeriesView(ClaraBaseTimeSeriesView):
     table = ClaraBaseTimeSeriesView.table
-    select_clause = f'{table}."Year_FWOA" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario" as scenario, {table}."CommunityID" as geoId, ' \
-                    f'SUM({table}."EASD_10") as min, SUM({table}."EASD_50" - {table}."EASD_10") as q1, SUM({table}."EASD_50") as median,' \
-                    f' SUM({table}."EASD_90" - {table}."EASD_50") as q3, SUM({table}."EASD_90") as max'
+    select_clause = f'{table}."Year_FWOA" as time, {table}."ModelGroup" as model_group_name, {table}."Scenario" as scenario, {table}."CommunityID" as geography, ' \
+                    f'SUM({table}."EASD_10") as value_min, SUM({table}."EASD_50" - {table}."EASD_10") as value_q1, SUM({table}."EASD_50") as value_median,' \
+                    f' SUM({table}."EASD_90" - {table}."EASD_50") as value_q3, SUM({table}."EASD_90") as value_max, {table}."PumpingID" as pumping_id, ' \
+                    f'{table}."FragilityScenario" as fragility_scenario, {table}."AssetType" as asset_type'
 
 
 class ClaraAnnualDamageTimeSeriesView(ClaraBaseTimeSeriesView):
     table = 'clara.damage'
-    param_fields = ['pumping_id', 'fragility_scenario', 'asset_type', 'scenario', 'group', 'geographies', 'year']
-    param_to_field = {'scenario': 'Scenario', 'group': 'ModelGroup', 'pumping_id': 'PumpingID', 'fragility_scenario': 'FragilityScenario', 'asset_type': 'AssetType', 'geographies': 'CommunityID', 'year': 'Year_FWOA'}
-    select_clause = f'{table}."Year_FWOA" as year, {table}."ModelGroup" as modelGroup, {table}."Scenario" as scenario, {table}."CommunityID" as geoId, ' \
-                    f'{table}."AEP" as aep, SUM({table}."Damage_10") as min, SUM({table}."Damage_50" - {table}."Damage_10") as q1, SUM({table}."Damage_50") as median, ' \
-                    f'SUM({table}."Damage_90" - {table}."Damage_50") as q3, SUM({table}."Damage_90") as max'
-    group_by_fields = ['AEP', 'ModelGroup', 'Scenario', 'CommunityID', 'Year_FWOA']
+    param_fields = ['pumping_id', 'fragility_scenario', 'asset_type', 'scenario', 'group', 'geography', 'time']
+    param_to_field = {'scenario': 'Scenario', 'group': 'ModelGroup', 'pumping_id': 'PumpingID', 'fragility_scenario': 'FragilityScenario', 'asset_type': 'AssetType', 'geography': 'CommunityID', 'time': 'Year_FWOA'}
+    select_clause = f'{table}."Year_FWOA" as time, {table}."ModelGroup" as model_group_name, {table}."Scenario" as scenario, {table}."CommunityID" as geography, ' \
+                    f'{table}."AEP" as aep, SUM({table}."Damage_10") as value_min, SUM({table}."Damage_50" - {table}."Damage_10") as value_q1, SUM({table}."Damage_50") as value_median, ' \
+                    f'SUM({table}."Damage_90" - {table}."Damage_50") as value_q3, SUM({table}."Damage_90") as value_max, {table}."PumpingID" as pumping_id, ' \
+                    f'{table}."FragilityScenario" as fragility_scenario, {table}."AssetType" as asset_type'
+    group_by_fields = ['AEP', 'ModelGroup', 'Scenario', 'CommunityID', 'PumpingID', 'FragilityScenario', 'AssetType', 'Year_FWOA']
