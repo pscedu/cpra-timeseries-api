@@ -15,14 +15,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from cpra_timeseries_api_app import views
+from cpra_timeseries_api_app.views import clara, ecoregion, extraction_point, hydro_compartment
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ecoregion/annual/land_area/', views.EcoregionAnnualLandAreaTimeSeriesView.as_view(), name="ecoregion_annual_land_area"),
-    path('ecoregion/annual/vegetation_coverage_area/', views.EcoregionAnnualVegetationCoverageAreaTimeSeriesView.as_view(), name="ecoregion_annual_vegetation_coverage_area"),
-    path('ecoregion/annual/habitat_suitability_unit/', views.EcoregionAnnualHabitatSuitabilityUnitTimeSeriesView.as_view(), name="ecoregion_annual_habitat_suitability_unti"),
-    path('clara/decadal/eadd/', views.ClaraDecadalEADDTimeSeriesView.as_view(), name="clara_decadal_eadd"),
-    path('clara/decadal/easd/', views.ClaraDecadalEASDTimeSeriesView.as_view(), name="clara_decadal_easd"),
-    path('clara/annual/damage/', views.ClaraAnnualDamageTimeSeriesView.as_view(), name="clara_annual_damage")
+    # TODO: Re-enable these once they have DAP tables.
+    # path('ecoregion/annual/land_area/', ecoregion.EcoregionAnnualLandAreaTimeSeriesView.as_view(), name="ecoregion_annual_land_area"),
+    # path('ecoregion/annual/vegetation_coverage_area/', ecoregion.EcoregionAnnualVegetationCoverageAreaTimeSeriesView.as_view(), name="ecoregion_annual_vegetation_coverage_area"),
+    # path('ecoregion/annual/habitat_suitability_unit/', ecoregion.EcoregionAnnualHabitatSuitabilityUnitTimeSeriesView.as_view(), name="ecoregion_annual_habitat_suitability_unti"),
+    # path('clara/decadal/eadd/', clara.ClaraDecadalEADDTimeSeriesView.as_view(), name="clara_decadal_eadd"),
+    # path('clara/decadal/easd/', clara.ClaraDecadalEASDTimeSeriesView.as_view(), name="clara_decadal_easd"),
+    path('clara/decadal/damage/', clara.ClaraDecadalDamageTimeSeriesView.as_view(), name="clara_decadal_damage"),
+    path('hydro_compartment/annual/salinity_mean/', hydro_compartment.HydroCompartmentAnnualSalinityMeanTimeSeriesView.as_view(), name="hydro_compartment_annual_salinity_mean"),
+    path('hydro_compartment/annual/salinity_two_week_max/', hydro_compartment.HydroCompartmentAnnualSalinityTwoWeekMaxTimeSeriesView.as_view(), name="hydro_compartment_annual_salinity_two_week_max"),
+    path('hydro_compartment/annual/water_level_mean/', hydro_compartment.HydroCompartmentAnnualWaterLevelMeanTimeSeriesView.as_view(),
+         name="hydro_compartment_annual_water_level_mean"),
+    path('hydro_compartment/annual/tss_mean/', hydro_compartment.HydroCompartmentAnnualTSSMeanTimeSeriesView.as_view(),
+         name="hydro_compartment_annual_tss_mean"),
+    path('hydro_compartment/annual/land_area/', hydro_compartment.HydroCompartmentAnnualLandAreaTimeSeriesView.as_view(),
+         name="hydro_compartment_annual_land_area"),
+    path('hydro_compartment/annual/temperature_mean/', hydro_compartment.HydroCompartmentAnnualTemperatureMeanTimeSeriesView.as_view(),
+         name="hydro_compartment_annual_temperature_mean"),
 ]
