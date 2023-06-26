@@ -31,8 +31,3 @@ class HydroCompartmentAnnualTSSMeanTimeSeriesView(HydroCompartmentBaseTimeSeries
 class HydroCompartmentAnnualLandAreaTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
     table = 'dap.vw_icm_comp_annual_lnd'
     select_clause = f'{table}.elapsed_time, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
-
-
-class HydroCompartmentAnnualTemperatureMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
-    table = 'dap.vw_icm_comp_annual_tmp'
-    select_clause = f'{table}.elapsed_time, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'

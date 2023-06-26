@@ -36,6 +36,4 @@ urlpatterns = [
          name="hydro_compartment_annual_tss_mean"),
     path('hydro_compartment/annual/land_area/', hydro_compartment.HydroCompartmentAnnualLandAreaTimeSeriesView.as_view(),
          name="hydro_compartment_annual_land_area"),
-    path('hydro_compartment/annual/temperature_mean/', hydro_compartment.HydroCompartmentAnnualTemperatureMeanTimeSeriesView.as_view(),
-         name="hydro_compartment_annual_temperature_mean"),
 ]
