@@ -48,7 +48,7 @@ class ClaraDecadalDamageTimeSeriesView(ClaraBaseTimeSeriesView):
     param_fields = ['pumping_id', 'fragility_scenario', 'asset_type', 'scenario_name', 'model_group_name', 'geography', 'elapsed_time']
     param_to_field = {'scenario_name': 'scenario_name', 'model_group_name': 'model_group_name', 'pumping_id': 'pumping_id', 'fragility_scenario': 'fragility_scenario', 'asset_type': 'asset_type', 'geography': 'geography', 'elapsed_time': 'elapsed_time'}
     select_clause = f'{table}.elapsed_time, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
-                    f'{table}.aep as aep, SUM({table}.value_min) as value_min, SUM({table}.value_q1) as value_q1, SUM({table}.value_median) as value_median, ' \
+                    f'{table}.aep, SUM({table}.value_min) as value_min, SUM({table}.value_q1) as value_q1, SUM({table}.value_median) as value_median, ' \
                     f'SUM({table}.value_q3) as value_q3, SUM({table}.value_max) as value_max, {table}.pumping_id, ' \
                     f'{table}.fragility_scenario, {table}.asset_type'
     group_by_fields = ['aep', 'model_group_name', 'scenario_name', 'geography', 'pumping_id', 'fragility_scenario', 'asset_type', 'elapsed_time']
