@@ -15,18 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from cpra_timeseries_api_app.views import clara, ecoregion, extraction_point, hydro_compartment
+from cpra_timeseries_api_app.views import clara, ecoregion, extraction_point, hydro_compartment, parish
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ecoregion/annual/land_area/', ecoregion.EcoregionAnnualLandAreaTimeSeriesView.as_view(), name="ecoregion_annual_land_area"),
-    path('ecoregion/annual/vegetation_coverage_area/', ecoregion.EcoregionAnnualVegetationCoverageAreaTimeSeriesView.as_view(), name="ecoregion_annual_vegetation_coverage_area"),
-    path('ecoregion/annual/habitat_suitability_unit/', ecoregion.EcoregionAnnualHabitatSuitabilityUnitTimeSeriesView.as_view(), name="ecoregion_annual_habitat_suitability_unit"),
     path('clara/decadal/eadd/', clara.ClaraDecadalEADDTimeSeriesView.as_view(), name="clara_decadal_eadd"),
     path('clara/decadal/nseadd/', clara.ClaraDecadalNSEADDTimeSeriesView.as_view(), name="clara_decadal_nseadd"),
     path('clara/decadal/easd/', clara.ClaraDecadalEASDTimeSeriesView.as_view(), name="clara_decadal_easd"),
     path('clara/decadal/nseasd/', clara.ClaraDecadalNSEASDTimeSeriesView.as_view(), name="clara_decadal_nseasd"),
     path('clara/decadal/damage/', clara.ClaraDecadalDamageTimeSeriesView.as_view(), name="clara_decadal_damage"),
+    path('ecoregion/annual/land_area/', ecoregion.EcoregionAnnualLandAreaTimeSeriesView.as_view(), name="ecoregion_annual_land_area"),
+    path('ecoregion/annual/vegetation_coverage_area/', ecoregion.EcoregionAnnualVegetationCoverageAreaTimeSeriesView.as_view(), name="ecoregion_annual_vegetation_coverage_area"),
+    path('ecoregion/annual/habitat_suitability_unit/', ecoregion.EcoregionAnnualHabitatSuitabilityUnitTimeSeriesView.as_view(), name="ecoregion_annual_habitat_suitability_unit"),
     path('hydro_compartment/decadal/elevation_exceedance/', hydro_compartment.HydroCompartmentDecadalElevationExceedance.as_view(), name="hydro_compartment_decadal_elevation_exceedance"),
     path('hydro_compartment/decadal/elevation_storm/', hydro_compartment.HydroCompartmentDecadalElevationStorm.as_view(), name="hydro_compartment_decadal_elevation_storm"),
     path('hydro_compartment/decadal/wave_height_exceedance/', hydro_compartment.HydroCompartmentDecadalWaveHeightExceedance.as_view(), name="hydro_compartment_decadal_wave_height_exceedance"),
@@ -39,4 +39,7 @@ urlpatterns = [
          name="hydro_compartment_annual_tss_mean"),
     path('hydro_compartment/annual/land_area/', hydro_compartment.HydroCompartmentAnnualLandAreaTimeSeriesView.as_view(),
          name="hydro_compartment_annual_land_area"),
+    path('parish/decadal/population/', parish.ParishDecadalPopulationTimeSeriesView.as_view(),
+         name="parish_decadal_population"),
+
 ]
