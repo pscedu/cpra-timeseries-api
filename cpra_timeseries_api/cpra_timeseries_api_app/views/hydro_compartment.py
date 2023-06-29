@@ -41,14 +41,14 @@ class HydroCompartmentAnnualLandAreaTimeSeriesView(HydroCompartmentBaseTimeSerie
     select_clause = f'{table}.elapsed_time, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
 
 
-class ClaraHydroCompartmentDecadalElevationExceedance(HydroCompartmentExceedanceBaseTimeSeriesView):
+class HydroCompartmentDecadalElevationExceedance(HydroCompartmentExceedanceBaseTimeSeriesView):
     table = 'dap.vw_clara_comp_decadal_elevation'
     select_clause = f'{table}.elapsed_time, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
                     f'{table}.aep, SUM({table}.value_min) as value_min, SUM({table}.value_q1) as value_q1, SUM({table}.value_median) as value_median, ' \
                     f'SUM({table}.value_q3) as value_q3, SUM({table}.value_max) as value_max'
 
 
-class ClaraHydroCompartmentDecadalElevationStorm(HydroCompartmentStormBaseTimeSeriesView):
+class HydroCompartmentDecadalElevationStorm(HydroCompartmentStormBaseTimeSeriesView):
     table = 'dap.vw_clara_comp_decadal_elevation_storm'
     select_clause = f'{table}.elapsed_time, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
                     f'{table}.storm_id, SUM({table}.value) as value'
