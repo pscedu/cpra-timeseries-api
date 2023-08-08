@@ -18,10 +18,9 @@ from django.urls import path
 from cpra_timeseries_api_app.views import block_group, clara, ecoregion, extraction_point, hydro_compartment, parish
 
 block_group_urls = [
-    # TODO: Communicate with Eric/Heather about the entries here.
-    # path('block_group/decadal/population_change/',
-    #      block_group.BlockGroupDecadalPopulationChangeTimeSeriesView.as_view(),
-    #      name="block_group_decadal_population_change"),
+    path('block_group/decadal/population_change/',
+         block_group.BlockGroupDecadalPopulationChangeTimeSeriesView.as_view(),
+         name="block_group_decadal_population_change"),
 ]
 
 clara_urls = [
