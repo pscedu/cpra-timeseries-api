@@ -107,9 +107,9 @@ parish_urls = [
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    block_group_urls,
-    clara_urls,
-    ecoregion_urls,
-    hydro_compartment_urls,
-    parish_urls,
+    *block_group_urls,
+    *clara_urls,
+    *ecoregion_urls,
+    *hydro_compartment_urls,
+    *parish_urls,
 ]
