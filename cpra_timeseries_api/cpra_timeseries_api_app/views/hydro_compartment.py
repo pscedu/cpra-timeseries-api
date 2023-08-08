@@ -36,6 +36,11 @@ class HydroCompartmentAnnualWaterLevelMeanTimeSeriesView(HydroCompartmentBaseTim
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
 
 
+class HydroCompartmentAnnualTidalRangeTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    table = 'dap.vw_icm_comp_annual_trg'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
+
+
 class HydroCompartmentDailyWaterLevelMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
     table = 'dap.vw_icm_comp_daily_stg'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'

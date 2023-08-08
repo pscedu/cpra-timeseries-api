@@ -52,3 +52,27 @@ class ClaraDecadalDamageTimeSeriesView(ClaraBaseTimeSeriesView):
                     f'SUM({table}.value_q3) as value_q3, SUM({table}.value_max) as value_max, {table}.pumping_id, ' \
                     f'{table}.fragility_scenario, {table}.asset_type'
     group_by_fields = ['aep', 'model_group_name', 'scenario_name', 'geography', 'pumping_id', 'fragility_scenario', 'asset_type', 'elapsed_year']
+
+
+class ClaraDecadalExposureAssetCountTimeSeriesView(ClaraBaseTimeSeriesView):
+    table = 'dap.vw_clara_comm_decadal_exposure'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
+                    f'{table}.aep, SUM({table}.value) as value, {table}.pumping_id, ' \
+                    f'{table}.fragility_scenario, {table}.asset_type'
+    group_by_fields = ['aep', 'model_group_name', 'scenario_name', 'geography', 'pumping_id', 'fragility_scenario', 'asset_type', 'elapsed_year']
+
+
+class ClaraDecadalExposureCriticalInfrastructureCountTimeSeriesView(ClaraBaseTimeSeriesView):
+    table = 'PDD clara.exposure_critical_infrastructure'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
+                    f'{table}.aep, SUM({table}.value) as value, {table}.pumping_id, ' \
+                    f'{table}.fragility_scenario, {table}.asset_type'
+    group_by_fields = ['aep', 'model_group_name', 'scenario_name', 'geography', 'pumping_id', 'fragility_scenario', 'asset_type', 'elapsed_year']
+
+
+class ClaraDecadalExposureHistoricPropertiesCountTimeSeriesView(ClaraBaseTimeSeriesView):
+    table = 'PDD clara.exposure_historic_properties'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
+                    f'{table}.aep, SUM({table}.value) as value, {table}.pumping_id, ' \
+                    f'{table}.fragility_scenario, {table}.asset_type'
+    group_by_fields = ['aep', 'model_group_name', 'scenario_name', 'geography', 'pumping_id', 'fragility_scenario', 'asset_type', 'elapsed_year']
