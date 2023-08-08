@@ -12,4 +12,5 @@ class BlockGroupBaseTimeSeriesView(BaseTimeSeriesView):
 class BlockGroupDecadalPopulationChangeTimeSeriesView(BaseTimeSeriesView):
     table = 'dap.vw_clara_bg_decadal_population'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
-                    f'{table}.ssp, {table}.migration, SUM({table}.value) as value'
+                    f'{table}.ssp, {table}.migration, SUM({table}.value_05) as value, ' \
+                    f'SUM({table}.value_50) as value, SUM({table}.value_95) as value'
