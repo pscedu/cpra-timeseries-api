@@ -74,8 +74,8 @@ class HydroCompartmentAnnualLandAreaTimeSeriesView(HydroCompartmentBaseTimeSerie
 class HydroCompartmentDecadalElevationExceedance(HydroCompartmentExceedanceBaseTimeSeriesView):
     table = 'dap.vw_clara_comp_decadal_elevation'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
-                    f'{table}.aep, SUM({table}.value_min) as value_min, SUM({table}.value_q1) as value_q1, SUM({table}.value_median) as value_median, ' \
-                    f'SUM({table}.value_q3) as value_q3, SUM({table}.value_max) as value_max'
+                    f'{table}.aep, SUM({table}.value_10) as value_10, SUM({table}.value_50) as value_50, ' \
+                    f'SUM({table}.value_90) as value_90'
 
 
 class HydroCompartmentDecadalElevationStorm(HydroCompartmentStormBaseTimeSeriesView):
@@ -87,8 +87,8 @@ class HydroCompartmentDecadalElevationStorm(HydroCompartmentStormBaseTimeSeriesV
 class HydroCompartmentDecadalWaveHeightExceedance(HydroCompartmentExceedanceBaseTimeSeriesView):
     table = 'dap.vw_clara_comp_decadal_wave'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
-                    f'{table}.aep, SUM({table}.value_min) as value_min, SUM({table}.value_q1) as value_q1, SUM({table}.value_median) as value_median, ' \
-                    f'SUM({table}.value_q3) as value_q3, SUM({table}.value_max) as value_max'
+                    f'{table}.aep, SUM({table}.value_10) as value_10, SUM({table}.value_50) as value_50, ' \
+                    f'SUM({table}.value_90) as value_90'
 
 
 class HydroCompartmentDecadalWaveHeightStorm(HydroCompartmentStormBaseTimeSeriesView):
