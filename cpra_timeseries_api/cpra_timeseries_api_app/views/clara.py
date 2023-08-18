@@ -75,14 +75,14 @@ class ClaraDecadalExposureAssetCountTimeSeriesView(ClaraDecadalExposureBaseTimeS
 
 
 class ClaraDecadalExposureCriticalInfrastructureCountTimeSeriesView(ClaraDecadalExposureBaseTimeSeriesView):
-    table = 'PDD clara.exposure_critical_infrastructure'
+    table = 'dap.vw_clara_comm_decadal_exposure_ci'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
                     f'{table}.aep, SUM({table}.value) as value, {table}.pumping_id, ' \
                     f'{table}.fragility_scenario, {table}.asset_type, {table}.exposure_type'
 
 
 class ClaraDecadalExposureHistoricPropertiesCountTimeSeriesView(ClaraDecadalExposureBaseTimeSeriesView):
-    table = 'PDD clara.exposure_historic_properties'
+    table = 'dap.vw_clara_comm_decadal_exposure_hp'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
                     f'{table}.aep, SUM({table}.value) as value, {table}.pumping_id, ' \
                     f'{table}.fragility_scenario, {table}.asset_type, {table}.exposure_type'
