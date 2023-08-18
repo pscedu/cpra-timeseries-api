@@ -85,7 +85,8 @@ extraction_point_urls = [
     path('extraction_point/annual/water_level_mean/',
          extraction_point.ExtractionPointAnnualWaterLevelMeanTimeSeriesView.as_view(),
          name="extraction_point_annual_water_level_mean"),
-    path('extraction_point/annual/tidal_range_mean/', extraction_point.ExtractionPointAnnualTidalRangeMeanTimeSeriesView.as_view(),
+    path('extraction_point/annual/tidal_range_mean/',
+         extraction_point.ExtractionPointAnnualTidalRangeMeanTimeSeriesView.as_view(),
          name="extraction_point_annual_tidal_range_mean")
 ]
 
