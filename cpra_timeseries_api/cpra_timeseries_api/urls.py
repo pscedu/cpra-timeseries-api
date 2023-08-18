@@ -35,9 +35,9 @@ clara_urls = [
     path('clara/decadal/exposure_critical_infrastructure_count/',
          clara.ClaraDecadalExposureCriticalInfrastructureCountTimeSeriesView.as_view(),
          name="clara_decadal_exposure_critical_infrastructure_count"),
-    path('clara/decadal/exposure_historical_properties_count/',
+    path('clara/decadal/exposure_historic_properties_count/',
          clara.ClaraDecadalExposureHistoricPropertiesCountTimeSeriesView.as_view(),
-         name="clara_decadal_exposure_historical_properties_count"),
+         name="clara_decadal_exposure_historic_properties_count"),
 ]
 
 ecoregion_urls = [
