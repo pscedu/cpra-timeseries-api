@@ -108,7 +108,7 @@ hydro_compartment_urls = [
          name="hydro_compartment_annual_land_area"),
     path('hydro_compartment/annual/tidal_range_mean/',
          hydro_compartment.HydroCompartmentAnnualTidalRangeMeanTimeSeriesView.as_view(),
-         name="hydro_compartment_annual_tidal_range"),
+         name="hydro_compartment_annual_tidal_range_mean"),
     path('hydro_compartment/daily/salinity_mean/',
          hydro_compartment.HydroCompartmentDailySalinityMeanTimeSeriesView.as_view(),
          name="hydro_compartment_daily_salinity_mean"),
@@ -120,10 +120,10 @@ hydro_compartment_urls = [
          name="hydro_compartment_daily_tss_mean"),
     path('hydro_compartment/daily/temperature_mean/',
          hydro_compartment.HydroCompartmentDailyTemperatureMeanTimeSeriesView.as_view(),
-         name="hydro_compartment_daily_temperature"),
+         name="hydro_compartment_daily_temperature_mean"),
     path('hydro_compartment/daily/tidal_range_mean/',
          hydro_compartment.HydroCompartmentDailyTidalRangeMeanTimeSeriesView.as_view(),
-         name="hydro_compartment_daily_tidal_range"),
+         name="hydro_compartment_daily_tidal_range_mean"),
 ]
 
 parish_urls = [
