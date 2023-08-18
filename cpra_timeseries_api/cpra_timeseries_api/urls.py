@@ -51,6 +51,33 @@ ecoregion_urls = [
          name="ecoregion_annual_habitat_suitability_unit"),
 ]
 
+extraction_point_urls = [
+    path('ecoregion/annual/inundation_depth_mean/', ecoregion.ExtractionPointAnnualInundationDepthMeanTimeSeriesView.as_view(),
+         name="ecoregion_annual_inundation_depth_mean"),
+    path('ecoregion/annual/elevation/', ecoregion.ExtractionPointAnnualElevationTimeSeriesView.as_view(),
+         name="ecoregion_annual_elevation"),
+    path('ecoregion/annual/mineral_deposition/', ecoregion.ExtractionPointAnnualMineralDepositionTimeSeriesView.as_view(),
+         name="ecoregion_annual_mineral_deposition"),
+    path('ecoregion/annual/mineral_accretion/', ecoregion.ExtractionPointAnnualMineralAccretionTimeSeriesView.as_view(),
+         name="ecoregion_annual_mineral_accretion"),
+    path('ecoregion/annual/organic_accumulation/', ecoregion.ExtractionPointAnnualOrganicAccumulationTimeSeriesView.as_view(),
+         name="ecoregion_annual_organic_accumulation"),
+    path('ecoregion/annual/organic_accretion/', ecoregion.ExtractionPointAnnualOrganicAccretionTimeSeriesView.as_view(),
+         name="ecoregion_annual_organic_accretion"),
+    path('ecoregion/annual/salinity_mean/', ecoregion.ExtractionPointAnnualSalinityMeanTimeSeriesView.as_view(),
+         name="ecoregion_annual_salinity_mean"),
+    path('ecoregion/annual/salinity_two_week_max/', ecoregion.ExtractionPointAnnualSalinityTwoWeekMaxTimeSeriesView.as_view(),
+         name="ecoregion_annual_salinity_two_week_max"),
+    path('ecoregion/annual/deep_subsidence/', ecoregion.ExtractionPointAnnualDeepSubsidenceTimeSeriesView.as_view(),
+         name="ecoregion_annual_deep_subsidence"),
+    path('ecoregion/annual/shallow_subsidence/', ecoregion.ExtractionPointAnnualShallowSubsidenceTimeSeriesView.as_view(),
+         name="ecoregion_annual_shallow_subsidence"),
+    path('ecoregion/annual/water_level_mean/', ecoregion.ExtractionPointAnnualWaterLevelMeanTimeSeriesView.as_view(),
+         name="ecoregion_annual_water_level_mean"),
+    path('ecoregion/annual/tidal_range_mean/', ecoregion.ExtractionPointAnnualTidalRangeMeanTimeSeriesView.as_view(),
+         name="ecoregion_annual_tidal_range_mean")
+]
+
 hydro_compartment_urls = [
     path('hydro_compartment/decadal/elevation_exceedance/',
          hydro_compartment.HydroCompartmentDecadalElevationExceedance.as_view(),
@@ -80,7 +107,7 @@ hydro_compartment_urls = [
          hydro_compartment.HydroCompartmentAnnualLandAreaTimeSeriesView.as_view(),
          name="hydro_compartment_annual_land_area"),
     path('hydro_compartment/annual/tidal_range_mean/',
-         hydro_compartment.HydroCompartmentAnnualTidalRangeTimeSeriesView.as_view(),
+         hydro_compartment.HydroCompartmentAnnualTidalRangeMeanTimeSeriesView.as_view(),
          name="hydro_compartment_annual_tidal_range"),
     path('hydro_compartment/daily/salinity_mean/',
          hydro_compartment.HydroCompartmentDailySalinityMeanTimeSeriesView.as_view(),
@@ -92,10 +119,10 @@ hydro_compartment_urls = [
          hydro_compartment.HydroCompartmentDailyTSSMeanTimeSeriesView.as_view(),
          name="hydro_compartment_daily_tss_mean"),
     path('hydro_compartment/daily/temperature_mean/',
-         hydro_compartment.HydroCompartmentDailyTemperatureTimeSeriesView.as_view(),
+         hydro_compartment.HydroCompartmentDailyTemperatureMeanTimeSeriesView.as_view(),
          name="hydro_compartment_daily_temperature"),
     path('hydro_compartment/daily/tidal_range_mean/',
-         hydro_compartment.HydroCompartmentDailyTidalRangeTimeSeriesView.as_view(),
+         hydro_compartment.HydroCompartmentDailyTidalRangeMeanTimeSeriesView.as_view(),
          name="hydro_compartment_daily_tidal_range"),
 ]
 
@@ -109,6 +136,7 @@ urlpatterns = [
     *block_group_urls,
     *clara_urls,
     *ecoregion_urls,
+    *extraction_point_urls,
     *hydro_compartment_urls,
     *parish_urls,
 ]
