@@ -3,16 +3,23 @@ from cpra_timeseries_api_app.views.base import BaseTimeSeriesView
 
 class HydroCompartmentBaseTimeSeriesView(BaseTimeSeriesView):
     param_fields = ['scenario_name', 'model_group_name', 'elapsed_year', 'geography']
-    param_to_field = {'scenario_name': 'scenario_name', 'model_group_name': 'model_group_name', 'elapsed_year': 'elapsed_year', 'geography': 'geography'}
+    param_to_field = {'scenario_name': 'scenario_name', 'model_group_name': 'model_group_name',
+                      'elapsed_year': 'elapsed_year', 'geography': 'geography'}
     group_by_fields = ['model_group_name', 'scenario_name', 'geography', 'elapsed_year']
     order_by_fields = ['elapsed_year']
 
 
 class HydroCompartmentExceedanceBaseTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    param_fields = ['scenario_name', 'model_group_name', 'elapsed_year', 'geography', 'aep']
+    param_to_field = {'scenario_name': 'scenario_name', 'model_group_name': 'model_group_name',
+                      'elapsed_year': 'elapsed_year', 'geography': 'geography', 'aep': 'aep'}
     group_by_fields = ['aep', 'model_group_name', 'scenario_name', 'geography', 'elapsed_year']
 
 
 class HydroCompartmentStormBaseTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    param_fields = ['scenario_name', 'model_group_name', 'elapsed_year', 'geography', 'storm_id']
+    param_to_field = {'scenario_name': 'scenario_name', 'model_group_name': 'model_group_name',
+                      'elapsed_year': 'elapsed_year', 'geography': 'geography', 'storm_id': 'storm_id'}
     group_by_fields = ['storm_id', 'model_group_name', 'scenario_name', 'geography', 'elapsed_year']
 
 
