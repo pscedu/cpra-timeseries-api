@@ -101,7 +101,7 @@ class ClaraDecadalExposureCriticalInfrastructureCountTimeSeriesView(BaseTimeSeri
     table = 'dap.vw_clara_comm_decadal_exposure_ci'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
                     f'{table}.aep, SUM({table}.value) as value, {table}.pumping_id, ' \
-                    f'{table}.fragility_scenario, {table}.asset_type, {table}.exposure_type, {table}.clara_group_id, ' \
+                    f'{table}.fragility_scenario, {table}.exposure_type, {table}.clara_group_id, ' \
                     f'{table}.source_dataset'
     group_by_fields = ['aep', 'model_group_name', 'scenario_name', 'geography', 'pumping_id', 'fragility_scenario',
                        'exposure_type', 'clara_group_id', 'source_dataset', 'elapsed_year']
@@ -118,7 +118,7 @@ class ClaraDecadalExposureHistoricPropertiesCountTimeSeriesView(BaseTimeSeriesVi
     table = 'dap.vw_clara_comm_decadal_exposure_hp'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
                     f'{table}.aep, SUM({table}.value) as value, {table}.pumping_id, ' \
-                    f'{table}.fragility_scenario, {table}.asset_type, {table}.exposure_type'
+                    f'{table}.fragility_scenario, {table}.exposure_type'
     group_by_fields = ['aep', 'model_group_name', 'scenario_name', 'geography', 'pumping_id', 'fragility_scenario',
                        'exposure_type', 'elapsed_year']
     order_by_fields = ['elapsed_year']
