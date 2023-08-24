@@ -19,7 +19,7 @@ class ClaraNSBaseTimeSeriesView(BaseTimeSeriesView):
     param_to_field = {'scenario_name': 'scenario_name', 'model_group_name': 'model_group_name',
                       'pumping_id': 'pumping_id', 'fragility_scenario': 'fragility_scenario',
                       'asset_type': 'asset_type', 'geography': 'geography', 'elapsed_year': 'elapsed_year',
-                      'participation_rate': 'ns_project_id'}
+                      'participation_rate': 'participation_rate', 'ns_project_id': 'ns_project_id'}
     table = ''
     group_by_fields = ['model_group_name', 'scenario_name', 'geography', 'pumping_id', 'fragility_scenario',
                        'participation_rate', 'ns_project_id', 'asset_type', 'elapsed_year']
