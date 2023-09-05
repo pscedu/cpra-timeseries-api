@@ -92,19 +92,19 @@ class ClaraDecadalExposureAssetCountTimeSeriesView(BaseTimeSeriesView):
 
 class ClaraDecadalExposureCriticalInfrastructureCountTimeSeriesView(BaseTimeSeriesView):
     param_fields = ['pumping_id', 'fragility_scenario', 'scenario_name', 'model_group_name', 'geography',
-                    'elapsed_year', 'exposure_type', 'aep', 'clara_group_id', 'source_dataset']
+                    'elapsed_year', 'exposure_type', 'aep', 'clara_group_id', 'category']
     param_to_field = {'scenario_name': 'scenario_name', 'model_group_name': 'model_group_name',
                       'pumping_id': 'pumping_id', 'fragility_scenario': 'fragility_scenario',
                       'asset_type': 'asset_type', 'geography': 'geography', 'elapsed_year': 'elapsed_year',
                       'exposure_type': 'exposure_type', 'aep': 'aep', 'clara_group_id': 'clara_group_id',
-                      'source_dataset': 'source_dataset'}
+                      'category': 'category'}
     table = 'dap.vw_clara_comm_decadal_exposure_ci'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
                     f'{table}.aep, SUM({table}.value) as value, {table}.pumping_id, ' \
                     f'{table}.fragility_scenario, {table}.exposure_type, {table}.clara_group_id, ' \
-                    f'{table}.source_dataset'
+                    f'{table}.category'
     group_by_fields = ['aep', 'model_group_name', 'scenario_name', 'geography', 'pumping_id', 'fragility_scenario',
-                       'exposure_type', 'clara_group_id', 'source_dataset', 'elapsed_year']
+                       'exposure_type', 'clara_group_id', 'category', 'elapsed_year']
     order_by_fields = ['elapsed_year']
 
 
