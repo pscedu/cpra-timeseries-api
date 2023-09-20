@@ -9,7 +9,7 @@ class ParishBaseTimeSeriesView(BaseTimeSeriesView):
     order_by_fields = ['elapsed_year']
 
 
-class ParishDecadalPopulationTimeSeriesView(BaseTimeSeriesView):
+class ParishDecadalPopulationTimeSeriesView(ParishBaseTimeSeriesView):
     table = 'dap.vw_clara_parish_decadal_population'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
                     f'{table}.ssp, {table}.migration, SUM({table}.value) as value'
