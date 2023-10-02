@@ -16,8 +16,12 @@ class EcoregionAnnualLandAreaTimeSeriesView(EcoregionBaseTimeSeriesView):
 
 class EcoregionAnnualVegetationCoverageAreaTimeSeriesView(EcoregionBaseTimeSeriesView):
     table = 'dap.vw_icm_ecor_annual_veg'
+    param_fields = ['scenario_name', 'model_group_name', 'geography', 'elapsed_year', 'vegetation_code']
+    param_to_field = {'scenario_name': 'scenario_name', 'model_group_name': 'model_group_name', 'geography': 'geography', 'elapsed_year': 'elapsed_year',
+                      'vegetation_code': 'vegetation_code'}
+    group_by_fields = ['vegetation_code', 'model_group_name', 'scenario_name', 'geography', 'elapsed_year']
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
-                    f'SUM({table}.value) as value'
+                    f'{table}.vegetation_code, SUM({table}.value) as value'
 
 
 class EcoregionAnnualHabitatSuitabilityUnitTimeSeriesView(EcoregionBaseTimeSeriesView):
