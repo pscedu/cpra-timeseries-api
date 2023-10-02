@@ -28,6 +28,11 @@ class HydroCompartmentAnnualSalinityMeanTimeSeriesView(HydroCompartmentBaseTimeS
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
 
 
+class HydroCompartmentDailySalinityMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    table = 'dap.vw_icm_comp_daily_sal'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
+
+
 class HydroCompartmentAnnualSalinityTwoWeekMaxTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
     table = 'dap.vw_icm_comp_annual_sal_2wkmax'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
@@ -38,8 +43,38 @@ class HydroCompartmentAnnualWaterLevelMeanTimeSeriesView(HydroCompartmentBaseTim
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
 
 
+class HydroCompartmentAnnualTidalRangeMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    table = 'dap.vw_icm_comp_annual_trg'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
+
+
+class HydroCompartmentDailyWaterLevelMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    table = 'dap.vw_icm_comp_daily_stg'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
+
+
 class HydroCompartmentAnnualTSSMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
     table = 'dap.vw_icm_comp_annual_tss'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
+
+
+class HydroCompartmentAnnualTemperatureMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    table = 'dap.vw_icm_comp_annual_tmp'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
+
+
+class HydroCompartmentDailyTSSMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    table = 'dap.vw_icm_comp_daily_tss'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
+
+
+class HydroCompartmentDailyTemperatureMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    table = 'dap.vw_icm_comp_daily_tmp'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
+
+
+class HydroCompartmentDailyTidalRangeMeanTimeSeriesView(HydroCompartmentBaseTimeSeriesView):
+    table = 'dap.vw_icm_comp_daily_trg'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, SUM({table}.value) as value'
 
 

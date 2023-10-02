@@ -88,7 +88,9 @@ class BaseTimeSeriesView(APIView):
         timeseries_data = self.execute_query(param_values)
 
         if request.accepted_renderer.format == 'csv':
-            return Response(timeseries_data, headers={'Content-Disposition': 'attachment; filename="timeseries.csv"'})
+            filename = request.GET.get('filename', 'timeseries')
+            filename = filename.split('.', 1)[0]
+            return Response(timeseries_data, headers={'Content-Disposition': f'attachment; filename="{filename}.csv"'})
         else:
             return Response({
                 "message": "Successful.",
