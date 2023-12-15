@@ -87,7 +87,13 @@ extraction_point_urls = [
          name="extraction_point_annual_water_level_mean"),
     path('extraction_point/annual/tidal_range_mean/',
          extraction_point.ExtractionPointAnnualTidalRangeMeanTimeSeriesView.as_view(),
-         name="extraction_point_annual_tidal_range_mean")
+         name="extraction_point_annual_tidal_range_mean"),
+    path('extraction_point/annual/land_type/',
+         extraction_point.ExtractionPointAnnualLandTypeTimeSeriesView.as_view(),
+         name="extraction_point_annual_land_type"),
+    path('extraction_point/annual/ffibs_score/',
+         extraction_point.ExtractionPointAnnualFFIBSScoreTimeSeriesView.as_view(),
+         name="extraction_point_annual_ffibs_score")
 ]
 
 hydro_compartment_urls = [
