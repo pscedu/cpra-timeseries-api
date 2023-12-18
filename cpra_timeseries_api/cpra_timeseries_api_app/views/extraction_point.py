@@ -79,3 +79,16 @@ class ExtractionPointAnnualTidalRangeMeanTimeSeriesView(ExtractionPointBaseTimeS
     table = 'dap.vw_icm_exp_annual_trg'
     select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
                     f'SUM({table}.value) as value'
+
+
+class ExtractionPointAnnualLandTypeTimeSeriesView(ExtractionPointBaseTimeSeriesView):
+    table = 'dap.vw_icm_exp_annual_lnd_id'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
+                    f'SUM({table}.value) as value'
+
+
+class ExtractionPointAnnualFFIBSScoreTimeSeriesView(ExtractionPointBaseTimeSeriesView):
+    table = 'dap.vw_icm_exp_annual_ffibs'
+    select_clause = f'{table}.elapsed_year, {table}.model_group_name, {table}.scenario_name, {table}.geography, ' \
+                    f'SUM({table}.value) as value'
+
