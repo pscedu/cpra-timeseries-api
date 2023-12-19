@@ -9,7 +9,7 @@ import json
 
 
 class BaseTimeSeriesView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (CSVRenderer,)
 
     param_fields = []

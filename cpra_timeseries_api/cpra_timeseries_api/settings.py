@@ -131,6 +131,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'cpra_timeseries_api_app.authentication.URLTokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
