@@ -123,10 +123,7 @@ components:
                   oneOf:
                     - type: string
                     - type: number
-              example: [
-                ["elapsed_year", "model_group_name", "scenario_name", "geography", "value"],
-                [2,"FWOA","Lower",309,10194.2584]
-              ]
+              example: [["elapsed_year", "model_group_name", "scenario_name", "geography", "value"], [2,"FWOA","Lower",309,10194.2584]]
               description: This will be a list of list of values, where the first list is the header values and the subsequent items are data.
     GetBaseTimeSeriesValue105090Response:
       allOf:
@@ -141,10 +138,7 @@ components:
                   oneOf:
                     - type: string
                     - type: integer
-              example: [
-                ["elapsed_year", "model_group_name", "scenario_name", "geography","value_10", "value_50", "value_90"],
-                [2,"FWOA","Lower",309,10194.2584,940812.4823,1063475.361]
-              ]
+              example: [["elapsed_year", "model_group_name", "scenario_name", "geography","value_10", "value_50", "value_90"], [2,"FWOA","Lower",309,10194.2584,940812.4823,1063475.361]]
               description: This will be a list of list of values, where the first list is the header values and the subsequent items are data.
     GetBaseTimeSeriesValue055095Response:
       allOf:
@@ -159,10 +153,7 @@ components:
                   oneOf:
                     - type: string
                     - type: integer
-              example: [
-                ["elapsed_year", "model_group_name", "scenario_name", "geography","value_05", "value_50", "value_95"],
-                [2,"FWOA","Lower",309,10194.2584,940812.4823,1063475.361]
-              ]
+              example: [["elapsed_year", "model_group_name", "scenario_name", "geography","value_05", "value_50", "value_95"], [2,"FWOA","Lower",309,10194.2584,940812.4823,1063475.361]]
               description: This will be a list of list of values, where the first list is the header values and the subsequent items are data.
 paths:
   '/block_group/decadal/population_change/':
