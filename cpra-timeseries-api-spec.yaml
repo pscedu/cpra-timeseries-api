@@ -1,0 +1,975 @@
+openapi: 3.0.0
+info:
+  title: CPRA Time Series API
+  description: The CPRA Time-Series API returns data from the PDD for a set of predetermined tables. Any parameters listed for a particular route are also returned on the response for that route (excluding type and token).
+  version: 1.0.0
+  license:
+    name: MIT License
+servers:
+  - url: "https://api.mpdap.coastal.la.gov"
+components:
+  parameters:
+    TypeParameter:
+      in: query
+      name: type
+      schema:
+        type: string
+        enum: [csv, json]
+      description: Allows you to get response as CSV or JSON
+    TokenParameter:
+      in: query
+      name: token
+      schema:
+        type: string
+      description: Pass your authentication token here
+    ScenarioNameParameter:
+      in: query
+      name: scenario_name
+      schema:
+        type: string
+    ModelGroupNameParameter:
+      in: query
+      name: model_group_name
+      schema:
+        type: string
+    GeographyParameter:
+      in: query
+      name: geography
+      schema:
+        type: string
+    ElapsedYearParameter:
+      in: query
+      name: elapsed_year
+      schema:
+        type: string
+    PumpingIDParameter:
+      in: query
+      name: pumping_id
+      schema:
+        type: string
+    FragilityScenarioParameter:
+      in: query
+      name: fragility_scenario
+      schema:
+        type: string
+    AssetTypeParameter:
+      in: query
+      name: asset_type
+      schema:
+        type: string
+    ParticipationRateParameter:
+      in: query
+      name: participation_rate
+      schema:
+        type: string
+    NSProjectIDParameter:
+      in: query
+      name: ns_project_id
+      schema:
+        type: string
+    AEPParameter:
+      in: query
+      name: aep
+      schema:
+        type: string
+    ExposureTypeParameter:
+      in: query
+      name: exposure_type
+      schema:
+        type: string
+    CategoryParameter:
+      in: query
+      name: category
+      schema:
+        type: string
+    VegetationCodeParameter:
+      in: query
+      name: vegetation_code
+      schema:
+        type: string
+    StormIDParameter:
+      in: query
+      name: storm_id
+      schema:
+        type: string
+    SSPParameter:
+      in: query
+      name: ssp
+      schema:
+        type: string
+    MigrationParameter:
+      in: query
+      name: migration
+      schema:
+        type: string
+  schemas:
+    GetBaseTimeSeriesViewResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        success:
+          type: boolean
+    GetBaseTimeSeriesValueResponse:
+      allOf:
+        - $ref: '#/components/schemas/GetBaseTimeSeriesViewResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+              example: [["elapsed_year", "model_group_name", "scenario_name", "geography", "value"], [2,"FWOA","Lower",309,10194.2584]]
+              description: This will be a list of list of values, where the first list is the header values and the subsequent items are data.
+    GetBaseTimeSeriesValue105090Response:
+      allOf:
+        - $ref: '#/components/schemas/GetBaseTimeSeriesViewResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: integer
+              example: [["elapsed_year", "model_group_name", "scenario_name", "geography","value_10", "value_50", "value_90"], [2,"FWOA","Lower",309,10194.2584,940812.4823,1063475.361]]
+              description: This will be a list of list of values, where the first list is the header values and the subsequent items are data.
+    GetBaseTimeSeriesValue055095Response:
+      allOf:
+        - $ref: '#/components/schemas/GetBaseTimeSeriesViewResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: integer
+              example: [["elapsed_year", "model_group_name", "scenario_name", "geography","value_05", "value_50", "value_95"], [2,"FWOA","Lower",309,10194.2584,940812.4823,1063475.361]]
+              description: This will be a list of list of values, where the first list is the header values and the subsequent items are data.
+paths:
+  '/block_group/decadal/population_change/':
+    get:
+      tags:
+        - Block Group
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/SSPParameter'
+        - $ref: '#/components/parameters/MigrationParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValue055095Response'
+  '/clara/decadal/eadd/':
+    get:
+      tags:
+        - CLARA
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/PumpingIDParameter'
+        - $ref: '#/components/parameters/FragilityScenarioParameter'
+        - $ref: '#/components/parameters/AssetTypeParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValue105090Response'
+  '/clara/decadal/nseadd/':
+    get:
+      tags:
+        - CLARA
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/PumpingIDParameter'
+        - $ref: '#/components/parameters/FragilityScenarioParameter'
+        - $ref: '#/components/parameters/AssetTypeParameter'
+        - $ref: '#/components/parameters/ParticipationRateParameter'
+        - $ref: '#/components/parameters/NSProjectIDParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValue105090Response'
+  '/clara/decadal/easd/':
+    get:
+      tags:
+        - CLARA
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/PumpingIDParameter'
+        - $ref: '#/components/parameters/FragilityScenarioParameter'
+        - $ref: '#/components/parameters/AssetTypeParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValue105090Response'
+  '/clara/decadal/nseasd/':
+    get:
+      tags:
+        - CLARA
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/PumpingIDParameter'
+        - $ref: '#/components/parameters/FragilityScenarioParameter'
+        - $ref: '#/components/parameters/AssetTypeParameter'
+        - $ref: '#/components/parameters/ParticipationRateParameter'
+        - $ref: '#/components/parameters/NSProjectIDParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValue105090Response'
+  '/clara/decadal/damage/':
+    get:
+      tags:
+        - CLARA
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/PumpingIDParameter'
+        - $ref: '#/components/parameters/FragilityScenarioParameter'
+        - $ref: '#/components/parameters/AssetTypeParameter'
+        - $ref: '#/components/parameters/AEPParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValue105090Response'
+  '/clara/decadal/exposure_asset_count/':
+    get:
+      tags:
+        - CLARA
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/PumpingIDParameter'
+        - $ref: '#/components/parameters/FragilityScenarioParameter'
+        - $ref: '#/components/parameters/AssetTypeParameter'
+        - $ref: '#/components/parameters/AEPParameter'
+        - $ref: '#/components/parameters/ExposureTypeParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/clara/decadal/exposure_critical_infrastructure_count/':
+    get:
+      tags:
+        - CLARA
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/FragilityScenarioParameter'
+        - $ref: '#/components/parameters/AssetTypeParameter'
+        - $ref: '#/components/parameters/AEPParameter'
+        - $ref: '#/components/parameters/ExposureTypeParameter'
+        - $ref: '#/components/parameters/CategoryParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/clara/decadal/exposure_historic_properties_count/':
+    get:
+      tags:
+        - CLARA
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/PumpingIDParameter'
+        - $ref: '#/components/parameters/FragilityScenarioParameter'
+        - $ref: '#/components/parameters/AEPParameter'
+        - $ref: '#/components/parameters/ExposureTypeParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/ecoregion/annual/land_area/':
+    get:
+      tags:
+        - Ecoregion
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/ecoregion/annual/vegetation_coverage_area/':
+    get:
+      tags:
+        - Ecoregion
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/VegetationCodeParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/ecoregion/annual/habitat_suitability_unit/':
+    get:
+      tags:
+        - Ecoregion
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/inundation_depth_mean/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/elevation/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/mineral_deposition/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/mineral_accretion/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/organic_accumulation/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/organic_accretion/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/salinity_mean/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/salinity_two_week_max/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/deep_subsidence/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/shallow_subsidence/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/water_level_mean/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/tidal_range_mean/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/land_type/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/extraction_point/annual/ffibs_score/':
+    get:
+      tags:
+        - Extraction Point
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/decadal/elevation_exceedance/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/AEPParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValue105090Response'
+  '/hydro_compartment/decadal/elevation_storm/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/StormIDParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/decadal/wave_height_exceedance/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/AEPParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValue105090Response'
+  '/hydro_compartment/decadal/wave_height_storm/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/StormIDParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/annual/salinity_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/annual/salinity_two_week_max/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/annual/water_level_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/annual/tss_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/annual/land_area/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/annual/temperature_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/annual/tidal_range_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/daily/salinity_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/daily/water_level_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/daily/tss_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/daily/temperature_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/hydro_compartment/daily/tidal_range_mean/':
+    get:
+      tags:
+        - Hydro Compartment
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
+  '/parish/decadal/population/':
+    get:
+      tags:
+        - Parish
+      parameters:
+        - $ref: '#/components/parameters/TypeParameter'
+        - $ref: '#/components/parameters/TokenParameter'
+        - $ref: '#/components/parameters/ScenarioNameParameter'
+        - $ref: '#/components/parameters/ModelGroupNameParameter'
+        - $ref: '#/components/parameters/GeographyParameter'
+        - $ref: '#/components/parameters/ElapsedYearParameter'
+        - $ref: '#/components/parameters/SSPParameter'
+        - $ref: '#/components/parameters/MigrationParameter'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBaseTimeSeriesValueResponse'
