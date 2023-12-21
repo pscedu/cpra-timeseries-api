@@ -10,6 +10,6 @@ class URLTokenAuthentication(authentication.TokenAuthentication):
             params = request.query_params
             token = params.get('token', None)
         else:
-            return super(request)
+            return super().authenticate(request)
 
         return self.authenticate_credentials(token)
