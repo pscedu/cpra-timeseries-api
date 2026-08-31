@@ -1,0 +1,11 @@
+.git/
+.github/
+.idea/
+__pycache__/
+*.pyc
+
+# Never bake local secrets or databases into the image.
+config.json
+db.sqlite3
+venv/
+.venv/
